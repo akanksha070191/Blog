@@ -6,5 +6,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('', views.blog, name='blog')
+    path('', views.blog, name='blog'),
+    path('signin', views.signin, name='signin')
+    
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

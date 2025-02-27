@@ -56,7 +56,7 @@ ROOT_URLCONF = 'blog_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/ 'templates'],
+        'DIRS': [BASE_DIR / "templates",],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'blog_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Blogs',
+        'NAME': 'blogs',
         'USER': 'blog',
         'PASSWORD': 'blog@2025',
         'HOST': '127.0.0.1',
@@ -122,8 +122,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILE_DIRS = [
-    BASE_DIR/ 'static'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
 ]
 
 MEDIA_URL = 'media/'
