@@ -1,7 +1,9 @@
 from django.contrib import admin
-from blogapp.models import BlogPost
+from blogapp.models import BlogPost, signInUser
+
 
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ('title', 'content', 'created_on', 'updated_on')
+    list_display = ('category', 'author', 'title', 'content', 'created_on', 'updated_on')
 
 admin.site.register(BlogPost, BlogAdmin)
+admin.site.register(signInUser)
