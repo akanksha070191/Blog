@@ -17,7 +17,6 @@
 </head>
 
 <body>
-
     <!-- NaveBar -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
@@ -51,7 +50,6 @@
                             <li><a class="dropdown-item" href="#">Action</a></li>
                         </ul>
                     </li>
-
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -69,37 +67,29 @@
         <div class="row">
             {% for blogs in allBlog %}
             <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="stack-item shadow-sm border-0 ">
+                <div class="card shadow-sm border-0">
                     <div class="stack-image">
                         <img fetchpriority="high" decoding="async" class="img-fluid " src="{{ blogs.image.url }}"
                             alt="Blog Image" style="width: 100%; height: 200px; object-fit: cover;">
                     </div>
-                    <div class="stack-body">
-
-                        <div class="stack-categories">
-                            <h4> Featured News</h4>
-                        </div>
-
-                        <h5 class="stack-title">
-                            <a href="{{ blogs.get_absolute_url }}" class="text-decoration-none">
-                                {{ blogs.title }}
-                            </a>
-                        </h5>
-
+                    <div class="card-body">
                         <p class="text-muted mb-2">
                             {% if blogs.category %}
                             <span class="badge bg-primary">{{ blogs.category }}</span>
                             {% endif %}
                         </p>
-
-                        <p class="stack-text">
+                        <h5 class="card-title">
+                            <a href="{{ blogs.get_absolute_url }}" class="text-dark text-decoration-none">
+                                {{ blogs.title }}
+                            </a>
+                        </h5>
+                        <p class="card-text">
                             {% if blogs.author %}
                             <small class="text-muted">By: {{ blogs.author }}</small>
                             {% endif %}
                             <br>
                             <small class="text-muted">{{ blogs.created_on|date:"F d, Y" }}</small>
                         </p>
-
                     </div>
                 </div>
             </div>

@@ -10,3 +10,4 @@ urlpatterns = [
     path('signin', views.signin, name='signin')
     
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
