@@ -53,7 +53,12 @@
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 </form>
-                <button class="signin-btn" onclick="window.location.href='signin'">Sign in</button>
+                {% if request.session.username %}
+                    Welcome {{request.session.username}}
+                {% else %}
+                    <button class="signin-btn" onclick="window.location.href='signin'">Sign in</button>
+                {% endif %}
+                
             </div>
         </div>
     </nav>
