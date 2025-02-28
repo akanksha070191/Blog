@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,9 +7,9 @@
     <title>Document</title>
     <link rel="stylesheet" href="/static/css/Style.css">
 
-          <!-- Bootstrap CDN Link -->
+     <!-- Bootstrap CDN Link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
    
 
@@ -62,28 +61,28 @@
  
 
     <div class="container my-5">
-        <h1 class="text-center">Latest News on Health Topics</h1>
+        <h1 class="text-start">Latest News on Health Topics</h1>
         <hr class="divider">
         <div class="row">
             {% for blogs in allBlog %}
             <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card shadow-sm border-0">
+                <div class="stack-item shadow-sm border-0">
                     <div class="stack-image">
                         <img fetchpriority="high" decoding="async" class="img-fluid " src="{{ blogs.image.url }}"
                             alt="Blog Image" style="width: 100%; height: 200px; object-fit: cover;">
                     </div>
-                    <div class="card-body">
+                    <div class="stack-body">
                         <p class="text-muted mb-2">
                             {% if blogs.category %}
                             <span class="badge bg-primary">{{ blogs.category }}</span>
                             {% endif %}
                         </p>
-                        <h5 class="card-title">
-                            <a href="{{ blogs.get_absolute_url }}" class="text-dark text-decoration-none">
+                        <h5 class="stack-title">
+                            <a href="" class="text-dark text-decoration-none">
                                 {{ blogs.title }}
                             </a>
                         </h5>
-                        <p class="card-text">
+                        <p class="stack-text">
                             {% if blogs.author %}
                             <small class="text-muted">By: {{ blogs.author }}</small>
                             {% endif %}
