@@ -79,7 +79,7 @@
                             {% endif %}
                         </p>
                         <h5 class="card-title">
-                            <a href="{{ blogs.get_absolute_url }}" class="text-dark text-decoration-none">
+                            <a href="{% url "blogDetail" blogs.id %}" class="text-dark text-decoration-none">
                                 {{ blogs.title }}
                             </a>
                         </h5>
