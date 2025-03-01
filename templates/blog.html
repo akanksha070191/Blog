@@ -15,10 +15,11 @@
 
 </head>
 
+
 <body>
 
     <!-- NaveBar -->
-    <nav class="navbar navbar-expand-lg sticky-top bg-body-tertiary">
+    <nav class="navbar sticky-top navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark"  >
         <div class="container-fluid">
             <a class="navbar-brand" href={% url "blog" %}>Health Blog</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -62,13 +63,17 @@
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 </form>
-                {% if request.session.username %}
-                    <button class="signin-btn" onclick="window.location.href='signout'">Sign Out</button>
-                    Welcome {{request.session.username}}
+                <div class="user-info" onclick="toggleDropdown()">
+                    <i class="user-icon bi bi-person-fill"></i> <!-- User icon -->
+                    <div class="signout-dropdown">
+                        <p>{{ request.session.username }}</p>
+                        <button class="signout-btn" onclick="window.location.href='blog'">Sign out</button>
+                    </div>
+                </div>
                 {% else %}
                     <button class="signin-btn" onclick="window.location.href='signin'">Sign in</button>
                 {% endif %}
-                
+                            
             </div>
         </div>
     </nav>
@@ -167,6 +172,20 @@
         }
     </script>
 
+    {% comment %} sign out function {% endcomment %}
+    <script>
+        function toggleDropdown() {
+            document.querySelector('.user-info').classList.toggle('active');
+        }
+    
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            var userInfo = document.querySelector('.user-info');
+            if (!userInfo.contains(event.target)) {
+                userInfo.classList.remove('active');
+            }
+        });
+    </script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
