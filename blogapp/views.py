@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import check_password, make_password
 import re
 
 def blog(request):
-    allBlog = BlogPost.objects.filter().order_by('-created_on')
+    allBlog = BlogPost.objects.filter().order_by('-created_on')[:4]
     return render(request, 'blog.html', {'allBlog': allBlog})
 
 def signin(request):
@@ -14,7 +14,7 @@ def signin(request):
 
 def blogDetail(request, blog_id):
     blog = BlogPost.objects.get(id=blog_id)
-    otherBlog = BlogPost.objects.exclude(id=blog_id).order_by('-created_on')
+    otherBlog = BlogPost.objects.exclude(id=blog_id).order_by('-created_on')[:3]
 
     sentences = re.split(r'(\. )', blog.content)  
     paragraph_size = 3 
@@ -67,9 +67,6 @@ def loggedInUser(request):
         userData = signInUser.objects.filter(emailId=email).first()
         
         if(userData):
-            print('name:',userData)
-            print('password:', password)
-            print('user password', userData.password)
             if check_password(password, userData.password): 
                 request.session['username']=userData.username
                 return redirect('blog')
