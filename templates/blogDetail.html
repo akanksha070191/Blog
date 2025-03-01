@@ -18,48 +18,63 @@
 <body>
 
       <!-- NaveBar -->
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <!-- NaveBar -->
+    <nav class="navbar sticky-top navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark"  >
         <div class="container-fluid">
-            <a class="navbar-brand" href={% url "blog" %}>Navbar</a>
+            <a class="navbar-brand" href={% url "blog" %}>Health Blog</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href={% url "blog" %}>Home</a>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            Dropdown
+                            About
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                        </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            Dropdown
+                            Services
+
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Action 1</a></li>
+                            <li><a class="dropdown-item" href="#">Action 2</a></li>
+                            <li><a class="dropdown-item" href="#">Action 3</a></li>
+                            <li><a class="dropdown-item" href="#">Action 4</a></li>
                         </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Contact
+                        </a>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 </form>
-                {% if username %}
-                    <button class="signin-btn" onclick="window.location.href='{% url "signout" %}'">Sign Out</button>
-                    {{username}}
+                {% if  request.session.username %}
+                <div class="user-info" onclick="toggleDropdown()">
+                    <i class="user-icon bi bi-person-fill"></i> <!-- User icon -->
+                    <div class="signout-dropdown">
+                        <p>{{ request.session.username }}</p>
+                        <button class="signout-btn" onclick="window.location.href='{% url "signout" %}'">Sign out</button>
+                    </div>
+                </div>
                 {% else %}
                     <button class="signin-btn" onclick="window.location.href='{% url "signin" %}'">Sign in</button>
                 {% endif %}
+                            
             </div>
         </div>
     </nav>
@@ -84,48 +99,34 @@
                 </div>
             </div>
         </div>
-         <!-- Comment Section -->
-{% comment %} <h1>Please add your comment</h1>
-
- 
-<div id="comment-container">
-    
-</div>
-
- 
-<textarea id="new-comment" rows="3" placeholder="Write a comment..."></textarea>
-<br>
-
-<!-- Post Button -->
-<button id="btn-post">Post</button> {% endcomment %}
             
         </div>
     </div>
 
-    <div class="container my-5">
+    <div class="container ">
         <h1 class="text-center">Latest News on Health Topics</h1>
         <hr class="divider">
         <div class="row">
             
             {% for blogs in otherBlog %}
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card shadow-sm border-0">
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="stack-item shadow-sm border-0">
                     <div class="stack-image">
                         <img fetchpriority="high" decoding="async" class="img-fluid " src="{{ blogs.image.url }}"
                             alt="Blog Image" style="width: 100%; height: 200px; object-fit: cover;">
                     </div>
-                    <div class="card-body">
+                    <div class="stack-body">
                         <p class="text-muted mb-2">
                             {% if blogs.category %}
                             <span class="badge bg-primary">{{ blogs.category }}</span>
                             {% endif %}
                         </p>
-                        <h5 class="card-title">
+                        <h5 class="stack-title">
                             <a href="{% url "blogDetail" blogs.id %}" class="text-dark text-decoration-none">
                                 {{ blogs.title }}
                             </a>
                         </h5>
-                        <p class="card-text">
+                        <p class="stack-text">
                             {% if blogs.author %}
                             <small class="text-muted">By: {{ blogs.author }}</small>
                             {% endif %}
@@ -140,10 +141,19 @@
                 <p>No blogs found.</p>
             </div>
             {% endfor %}
-        </div>
 
+        </div>
+        
+        <p class="arrow-link ">
+            <a href="" class="text-primary fw-bold d-inline-flex align-items-center" 
+               style="text-decoration: none; transition: color 0.3s ease;">
+                View more Blog posts 
+            </a>
+            <img src="{% static '' %}" alt="Logo">
+        </p>
     
-    </div>
+    </div> 
+
     {% comment %} <script>
         
         document.getElementById("btn-post").addEventListener("click", function () {
@@ -204,6 +214,6 @@
             </div>
         </div>
     </footer>
-
+<script src="/static/js/SignOut.js"></script>
 </body>
 </html>

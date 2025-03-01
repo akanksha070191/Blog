@@ -44,7 +44,23 @@
     color: #007bff !important;
     text-decoration: underline !important;
 }
-
+.arrow-link a{
+    text-decoration: none;
+}
+.arrow-link a:hover{
+    text-decoration: underline;
+}
+.arrow-link a::after{
+    content: '';
+    background-image: url(/Blog/media/blogImages/arrow.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: calc(50% - 6px);
+    right: -20px;
+}
 
 #signin-form {
     display: none;
