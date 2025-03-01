@@ -10,6 +10,7 @@
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -75,17 +76,26 @@
                 </div>
             </div>
         </div>
+         <!-- Comment Section -->
+{% comment %} <h1>Please add your comment</h1>
+
+ 
+<div id="comment-container">
+    
+</div>
+
+ 
+<textarea id="new-comment" rows="3" placeholder="Write a comment..."></textarea>
+<br>
+
+<!-- Post Button -->
+<button id="btn-post">Post</button> {% endcomment %}
+            
+        </div>
     </div>
     
 
-    {% if username %}
-            {{username}}
-    {% endif %}
-    <strong>{{blog.title}}</strong>
-    <h4>{{blog.author}}</h4>
-    <h5>{{blog.created_on}}</h5>
-    <img src="{{blog.image.url}}" alt=""><br><br>
-    {{blog.content}}
+   
 
     <div class="container my-5">
         <h1 class="text-center">Latest News on Health Topics</h1>
@@ -126,8 +136,32 @@
             </div>
             {% endfor %}
         </div>
-    </div>
 
+    
+    </div>
+    {% comment %} <script>
+        
+        document.getElementById("btn-post").addEventListener("click", function () {
+            
+            const newComment = document.getElementById("new-comment").value.trim();
+    
+           
+            if (newComment === "") {
+                alert("Please write a comment before posting.");
+                return;
+            }
+    
+           
+            const commentContainer = document.getElementById("comment-container");
+            const commentElement = document.createElement("p");
+            commentElement.innerHTML = `<i class="fas fa-user"></i> ${newComment}`; / 
+            
+            commentContainer.appendChild(commentElement);
+    
+          
+            document.getElementById("new-comment").value = "";
+        });
+    </script> {% endcomment %}
 
     <footer class="bg-dark text-light py-4">
         <div class="container text-center">
