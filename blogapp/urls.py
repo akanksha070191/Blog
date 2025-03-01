@@ -11,7 +11,8 @@ urlpatterns = [
     path('blogs/<int:blog_id>/', views.blogDetail, name='blogDetail'),
     path('signInNewUser/', views.signInNewUser, name='signInNewUser'),
     path('check_email/', views.checkEmailId, name='check_email'),
-    path('loggedin/', views.loggedInUser, name='loggedin')
+    path('loggedin/', views.loggedInUser, name='loggedin'),
+    path('signout/', views.signOut, name='signout'),
     
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

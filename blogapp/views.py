@@ -3,6 +3,7 @@ from .models import BlogPost, signInUser
 from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
+import re
 
 def blog(request):
     allBlog = BlogPost.objects.filter().order_by('-created_on')
@@ -14,8 +15,25 @@ def signin(request):
 def blogDetail(request, blog_id):
     blog = BlogPost.objects.get(id=blog_id)
     otherBlog = BlogPost.objects.exclude(id=blog_id).order_by('-created_on')
-    username = request.session.get('username', 'Guest')
-    return render(request, 'blogDetail.html', {'blog':blog, 'otherBlog':otherBlog, 'username': username})
+
+    sentences = re.split(r'(\. )', blog.content)  
+    paragraph_size = 3 
+    paragraphs = []
+    temp_paragraph = ""
+
+    for i, sentence in enumerate(sentences):
+        temp_paragraph += sentence
+        if (i + 1) % (paragraph_size * 2) == 0:
+            paragraphs.append(temp_paragraph.strip())
+            temp_paragraph = ""
+
+    if temp_paragraph:
+        paragraphs.append(temp_paragraph.strip())
+
+    formatted_content = "\n\n".join(paragraphs)
+     
+    username = request.session.get('username')
+    return render(request, 'blogDetail.html', {'blog':blog, 'otherBlog':otherBlog, 'username': username, 'formattedContent':formatted_content})
 
 def signInNewUser(request):
     if request.method == 'POST':
@@ -60,5 +78,9 @@ def loggedInUser(request):
         else:
             return render(request, 'signin.html', {'error': 'Email not registered'})  
 
+    return redirect('blog')
+
+def signOut(request):
+    request.session.flush()
     return redirect('blog')
 

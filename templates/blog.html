@@ -63,6 +63,7 @@
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 </form>
                 {% if request.session.username %}
+                    <button class="signin-btn" onclick="window.location.href='signout'">Sign Out</button>
                     Welcome {{request.session.username}}
                 {% else %}
                     <button class="signin-btn" onclick="window.location.href='signin'">Sign in</button>
