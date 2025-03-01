@@ -63,6 +63,7 @@
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 </form>
+                {% if  request.session.username %}
                 <div class="user-info" onclick="toggleDropdown()">
                     <i class="user-icon bi bi-person-fill"></i> <!-- User icon -->
                     <div class="signout-dropdown">
