@@ -13,6 +13,8 @@ urlpatterns = [
     path('check_email/', views.checkEmailId, name='check_email'),
     path('loggedin/', views.loggedInUser, name='loggedin'),
     path('signout/', views.signOut, name='signout'),
+    path('postComment', views.postComment, name='postComment'),
+    path('search/', views.search, name='search'),
     
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

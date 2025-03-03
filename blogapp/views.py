@@ -1,9 +1,10 @@
-from django.shortcuts import render,redirect
-from .models import BlogPost, signInUser
+from django.shortcuts import render,redirect, get_object_or_404
+from .models import BlogPost, signInUser, CommentPost
 from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
 import re
+from blogapp.templatetags import get_dict
 
 def blog(request):
     allBlog = BlogPost.objects.filter().order_by('-created_on')[:4]
@@ -14,6 +15,17 @@ def signin(request):
 
 def blogDetail(request, blog_id):
     blog = BlogPost.objects.get(id=blog_id)
+    comment = CommentPost.objects.filter(title=blog.id, parent=None).order_by('-posted_time')
+    replies = CommentPost.objects.filter(title=blog.id).order_by('-posted_time').exclude(parent=None)
+    replyDict = {}
+    for reply in replies:
+        if reply.parent.id not in replyDict.keys():
+            replyDict[reply.parent.id]=[reply]
+        else:
+            replyDict[reply.parent.id].append(reply)
+    print('reply Dict:', replyDict)
+
+
     otherBlog = BlogPost.objects.exclude(id=blog_id).order_by('-created_on')[:3]
 
     sentences = re.split(r'(\. )', blog.content)  
@@ -33,7 +45,10 @@ def blogDetail(request, blog_id):
     formatted_content = "\n\n".join(paragraphs)
      
     username = request.session.get('username')
-    return render(request, 'blogDetail.html', {'blog':blog, 'otherBlog':otherBlog, 'username': username, 'formattedContent':formatted_content})
+    return render(request, 'blogDetail.html', {'blog':blog, 'otherBlog':otherBlog, 'username': username, 'formattedContent':formatted_content,
+                                                'comments':comment,
+                                                'count': comment.count(),
+                                                'replyDict': replyDict})
 
 def signInNewUser(request):
     if request.method == 'POST':
@@ -77,7 +92,47 @@ def loggedInUser(request):
 
     return redirect('blog')
 
+def postComment(request):
+    if request.method == "POST":
+        comment = request.POST.get('comment')
+        username = request.POST.get('user_name')
+        blogId = request.POST.get('blog_id')
+        parentId = request.POST.get('parentId')
+
+        if not username:
+            messages.error(request, 'You must be logged in to comment.')
+            return redirect('signin')
+        
+
+
+        # Get BlogPost instance
+        blog = get_object_or_404(BlogPost, id=blogId)
+
+        # Get signInUser instance using username
+        user = get_object_or_404(signInUser, username=username)
+        print('emailId:', user.emailId)
+
+        if parentId == "":
+            userComment = CommentPost(comment=comment, emailId=user, title=blog)
+            userComment.save()
+            messages.success(request, 'Comment Posted!!')
+        else:
+            parent = CommentPost.objects.get(id=parentId)
+            userComment = CommentPost(comment=comment, emailId=user, title=blog, parent=parent)
+            userComment.save()
+            messages.success(request, 'Reply Posted!!')
+
+        return redirect('blogDetail', blog_id=blogId)
+
+def search(request):
+    query = request.GET.get('query', '')
+    searchBlog = BlogPost.objects.filter(title__icontains=query).order_by('-created_on') if query else BlogPost.objects.all().order_by('-created_on')
+
+    return render(request, 'search.html', {'searchBlog': searchBlog})
+
 def signOut(request):
     request.session.flush()
     return redirect('blog')
+
+
 
