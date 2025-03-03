@@ -20,4 +20,15 @@ class signInUser(models.Model):
 
     def __str__(self):
         return self.username
+    
+
+class CommentPost(models.Model):
+    comment = models.TextField()
+    emailId = models.ForeignKey(signInUser, on_delete=models.CASCADE)
+    title = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
+    posted_time = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.comment[:15]}... by {self.emailId.username}'
 
