@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
 import re
 from blogapp.templatetags import get_dict
+from django.core.paginator import Paginator
 
 def blog(request):
     allBlog = BlogPost.objects.filter().order_by('-created_on')[:4]
@@ -135,8 +136,11 @@ def search(request):
     return render(request, 'search.html', {'searchBlog': searchBlog, 'query': query})
 
 def allBlogs(request):
-    allPost = BlogPost.objects.all()
-    return render(request, 'allBlogs.html', {'allPost': allPost})
+    allPost = BlogPost.objects.all().order_by('-created_on')
+    paginator = Paginator(allPost, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'allBlogs.html', {'allPost': allPost, 'page_obj': page_obj})
 
 def signOut(request):
     request.session.flush()
