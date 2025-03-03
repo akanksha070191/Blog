@@ -21,14 +21,14 @@
     <!-- NaveBar -->
     <nav class="navbar sticky-top navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark"  >
         <div class="container-fluid">
-            <a class="navbar-brand" href={% url "blog" %}>Health Blog</a>
+            <a class="navbar-brand" href={% url "blog" %}>HealthBlog</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href={% url "blog" %}>Home</a>
                     </li>
@@ -79,7 +79,17 @@
         </div>
     </nav>
 
- 
+    {% comment %} Hero Section {% endcomment %}
+    
+    <section class="container mt-5">
+        <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+            <div class="col-md-6 px-0">
+                <h1 class="display-4 ">Welcome To <span class="fst-italic"> Gospl</span> Featured Blog Post</h1>
+                <p class="lead my-3">Explore insightful stories, inspiring messages, and thought-provoking discussions that bring faith and wisdom to your journey.</p>
+                <p class="lead mb-0"><a href="#" class="text-white fw-bold">More Blogs</a></p>
+            </div>
+        </div>
+    </section>
 
     <div class="container py-5 ">
         <h1 class="text-start">Latest News on Health Topics</h1>
@@ -193,5 +203,4 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 </body>
-
 </html>

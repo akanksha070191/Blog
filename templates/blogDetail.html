@@ -17,6 +17,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <script src="/static/js/signInvalidation.js" defer></script>
 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+
 </head>
 <style>
     .message-container {
@@ -36,10 +39,71 @@
         font-weight: bold;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
+
+    /* Container Styling */
+    .container-comment {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+ 
+    .comment-box {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+    }
+
+   
+    .comment-box img {
+        border-radius: 50%;
+        border: 2px solid #ddd;
+    }
+
+   
+    .comment-header {
+        font-weight: bold;
+        color: #333;
+    }
+
+    
+    .btn-reply {
+        font-size: 12px;
+        padding: 5px 10px;
+        border-radius: 20px;
+    }
+
+    
+
+    .reply_comment {
+        margin-left: 40px;
+        border-left: 3px solid #ddd;
+        padding-left: 10px;
+    }
+
+     
+    .comment-box:hover {
+        background: #f1f1f1;
+        transition: 0.3s ease-in-out;
+    }
+
+    .btn-reply {
+        font-size: 12px;
+        padding: 5px 10px;
+        border-radius: 7px;
+    }
+
+    .btn-sumit{
+        font-size: 12px;
+        padding: 5px 10px;
+        border-radius: 7px;
+    }
 </style>
 <body>
 
-      <!-- NaveBar -->
+     
     <!-- NaveBar -->
     <nav class="navbar sticky-top navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark"  >
         <div class="container-fluid">
@@ -139,71 +203,79 @@
             </div>
         {% endif %}
     </div>
-    <div class="container">
-            <h2 class="col-lg-4">Comment({{count}})</h2>
-            <div class="row my-2">
-                <form action="/postComment" method="post">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                      <label for="comment" class="form-label">Post Comment</label>
-                      <input type="text" class="form-control" id="comment" name="comment">
+
+  <div class="container">
+    <h2 class="col-lg-4">Comments ({{count}})</h2>
+    <div class="row my-2">
+        <form action="/postComment" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="comment" class="form-label">Post Comment</label>
+                <input type="text" class="form-control" id="comment" name="comment" placeholder="Write a comment...">
+            </div>
+            <input type="hidden" name="parentId" value="">
+            <input type="hidden" name="user_name" value="{{request.session.username}}">
+            <input type="hidden" name="blog_id" value="{{blog.id}}">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <div class="container-comment my-5">
+            {% for comment in comments %}
+            <div class="comment-box">
+                <div class="row">
+                    <div class="col-md-1 text-center">
+                        <img src="/media/blogImages/user.png" alt="" width="40px">
                     </div>
-                    <input type="hidden" name="parentId" value="">
-                    <input type="hidden" name="user_name" value="{{request.session.username}}">
-                    <input type="hidden" name="blog_id" value="{{blog.id}}">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-
-                <div class="container-comment my-5">
-                    {% for comment in comments %}
-                    <div class="row">
-                        <div class="col-md-1 text-center">
-                            <img class="" src="/media/user.png" alt="" srcset="" width="40px">
-                        </div>
-                        <div class="col-md-11"><strong>{{comment.emailId}}</strong> <span class="badge bg-secondary">{{comment.posted_time | naturaltime}}</span><br>
-                            {{comment.comment}}<br>
-                            <div class="reply">
-                                    <button class="btn btn-sm btn-primary my-2" type="button" data-bs-toggle="collapse" data-bs-target="#replyBox{{comment.id}}" aria-expanded="false" aria-controls="replyBox{{comment.id}}">
-                                      Reply
-                                    </button>
-                                  <div class="collapse" id="replyBox{{comment.id}}">
-                                    <div class="card card-body">
-                                        <form action="/postComment" method="post">
-                                            {% csrf_token %}
-                                            <div class="mb-3">
-                                              <label for="comment" class="form-label">Post a Reply</label>
-                                              <input type="text" class="form-control" id="comment" name="comment">
-                                              <input type="hidden" name="parentId" value="{{comment.id}}">
-                                            </div>
-                                            <input type="hidden" name="user_name" value="{{request.session.username}}">
-                                            <input type="hidden" name="blog_id" value="{{blog.id}}">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </form>
-                                    </div>
-                                  </div>
-
+                    <div class="col-md-11">
+                        <strong class="comment-header">{{comment.emailId}}</strong>
+                        <span class="badge bg-secondary">{{comment.posted_time | naturaltime}}</span><br>
+                        {{comment.comment}}<br>
+                        <div class="reply">
+                            <button class="btn btn-sm btn-primary my-2 btn-reply" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#replyBox{{comment.id}}" aria-expanded="false"
+                                aria-controls="replyBox{{comment.id}}">
+                                Reply
+                            </button>
+                            <div class="collapse" id="replyBox{{comment.id}}">
+                                <div class="card card-body">
+                                    <form action="/postComment" method="post">
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label for="comment" class="form-label">Post a Reply</label>
+                                            <input type="text" class="form-control" id="comment" name="comment"
+                                                placeholder="Write a reply...">
+                                            <input type="hidden" name="parentId" value="{{comment.id}}">
+                                        </div>
+                                        <input type="hidden" name="user_name" value="{{request.session.username}}">
+                                        <input type="hidden" name="blog_id" value="{{blog.id}}">
+                                        <button type="submit" class="btn btn-primary btn-sumit">Submit</button>
+                                    </form>
+                                </div>
                             </div>
-                            <div class="reply_comment">
-                                {% for reply in replyDict|get_val:comment.id %}
+                        </div>
+                        <div class="reply_comment">
+                            {% for reply in replyDict|get_val:comment.id %}
+                            <div class="comment-box">
                                 <div class="row">
-                                    <div class="col-md-1 text-center my-1">
-                                        <img src="/media/user.png" alt="" srcset="" width="20px;">
+                                    <div class="col-md-1 text-center">
+                                        <img src="/media/blogImages/user.png" alt="" width="30px">
                                     </div>
                                     <div class="col-md-11">
-                                        <strong>{{reply.emailId}}</strong> <span class="badge bg-secondary">{{reply.posted_time | naturaltime}}</span><br>
+                                        <strong>{{reply.emailId}}</strong>
+                                        <span class="badge bg-secondary">{{reply.posted_time | naturaltime}}</span><br>
                                         {{reply.comment}}<br>
-                                        <br>
                                     </div>
                                 </div>
-                                {% endfor %}
                             </div>
+                            {% endfor %}
                         </div>
                     </div>
-                    <br>
-                    {% endfor %}
                 </div>
             </div>
+            {% endfor %}
+        </div>
     </div>
+</div>
 
     <div class="container">
         <h1 class="text-center">Latest News on Health Topics</h1>
@@ -246,53 +318,17 @@
 
         </div>
 
-        <div class="row">
-            <div class="col-12">
-                
-                <p class="arrow-link ">
-                    <a href="" class="text-primary fw-bold d-inline-flex align-items-center" 
-                       style="text-decoration: none; transition: color 0.3s ease;">
-                        View more Blog posts 
-                    </a>
-                    <img src="" alt="Logo" />
-                </p>
-            </div>
-        </div>
-
         
         <p class="arrow-link ">
             <a href="" class="text-primary fw-bold d-inline-flex align-items-center" 
                style="text-decoration: none; transition: color 0.3s ease;">
                 View more Blog posts 
             </a>
-            <img src="/media/right_arrow.png" alt="Logo">
+            <img src="/media/blogImages/arrow.svg" alt="Logo">
         </p>
     
     </div> 
 
-    {% comment %} <script>
-        
-        document.getElementById("btn-post").addEventListener("click", function () {
-            
-            const newComment = document.getElementById("new-comment").value.trim();
-    
-           
-            if (newComment === "") {
-                alert("Please write a comment before posting.");
-                return;
-            }
-    
-           
-            const commentContainer = document.getElementById("comment-container");
-            const commentElement = document.createElement("p");
-            commentElement.innerHTML = `<i class="fas fa-user"></i> ${newComment}`; / 
-            
-            commentContainer.appendChild(commentElement);
-    
-          
-            document.getElementById("new-comment").value = "";
-        });
-    </script> {% endcomment %}
 
     <footer class="bg-dark text-light py-4">
         <div class="container text-center">
