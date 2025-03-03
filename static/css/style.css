@@ -6,6 +6,10 @@
 
 /* NavBar  Section*/
 
+body {
+    overflow-x: hidden;
+}
+
 .signin-btn {
     background-color: #007bff !important; 
     color: white;
