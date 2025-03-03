@@ -126,9 +126,17 @@ def postComment(request):
 
 def search(request):
     query = request.GET.get('query', '')
-    searchBlog = BlogPost.objects.filter(title__icontains=query).order_by('-created_on') if query else BlogPost.objects.all().order_by('-created_on')
+    searchBlogList = BlogPost.objects.filter(title__icontains=query).order_by('-created_on') if query else BlogPost.objects.all().order_by('-created_on')
+    allPosts = BlogPost.objects.filter(content__icontains=query).order_by('-created_on')
+    authorPost = BlogPost.objects.filter(author__icontains=query).order_by('-created_on')
+    unionBlog = searchBlogList.union(allPosts)
+    searchBlog = unionBlog.union(authorPost)
 
-    return render(request, 'search.html', {'searchBlog': searchBlog})
+    return render(request, 'search.html', {'searchBlog': searchBlog, 'query': query})
+
+def allBlogs(request):
+    allPost = BlogPost.objects.all()
+    return render(request, 'allBlogs.html', {'allPost': allPost})
 
 def signOut(request):
     request.session.flush()
