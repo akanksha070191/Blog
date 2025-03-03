@@ -85,17 +85,7 @@
         <h1 class="text-start">Latest News on Health Topics</h1>
         <hr class="divider">
         <div class="row">
-            <h3>Search Results:</h3>
-            {% if searchBlog|length < 1 %}
-            <p>
-                No Blogs Found
-            </p>
-            <p>
-                Your searched query: <strong>{{query}}</strong> is not found.<br>
-                Try with other keyword.
-            </p>
-            {% endif %}
-            {% for blogs in searchBlog %}
+            {% for blogs in allPost %}
             <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
                 <div class="stack-item shadow-sm border-0">
                     <div class="stack-image">

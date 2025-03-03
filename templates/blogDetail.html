@@ -247,7 +247,7 @@
         </div>
         
         <p class="arrow-link ">
-            <a href="" class="text-primary fw-bold d-inline-flex align-items-center" 
+            <a href="{% url "allBlogs" %}" class="text-primary fw-bold d-inline-flex align-items-center" 
                style="text-decoration: none; transition: color 0.3s ease;">
                 View more Blog posts 
             </a>
@@ -255,30 +255,6 @@
         </p>
     
     </div> 
-
-    {% comment %} <script>
-        
-        document.getElementById("btn-post").addEventListener("click", function () {
-            
-            const newComment = document.getElementById("new-comment").value.trim();
-    
-           
-            if (newComment === "") {
-                alert("Please write a comment before posting.");
-                return;
-            }
-    
-           
-            const commentContainer = document.getElementById("comment-container");
-            const commentElement = document.createElement("p");
-            commentElement.innerHTML = `<i class="fas fa-user"></i> ${newComment}`; / 
-            
-            commentContainer.appendChild(commentElement);
-    
-          
-            document.getElementById("new-comment").value = "";
-        });
-    </script> {% endcomment %}
 
     <footer class="bg-dark text-light py-4">
         <div class="container text-center">
