@@ -25,4 +25,5 @@ admin.site.index_title = 'Blog'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blogapp.urls')),
+    path('tinymce', include('tinymce.urls')),
 ]

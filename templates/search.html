@@ -65,11 +65,11 @@
                     <i class="user-icon bi bi-person-fill"></i> <!-- User icon -->
                     <div class="signout-dropdown">
                         <p>{{ request.session.username }}</p>
-                        <button class="signout-btn" onclick="window.location.href='signout'">Sign out</button>
+                        <button class="signout-btn" onclick="window.location.href='{% url "signout" %}'">Sign out</button>
                     </div>
                 </div>
                 {% else %}
-                    <button class="signin-btn" onclick="window.location.href='signin'">Sign in</button>
+                    <button class="signin-btn" onclick="window.location.href='{% url "signin" %}'">Sign in</button>
                 {% endif %}
                             
             </div>
