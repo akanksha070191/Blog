@@ -81,28 +81,41 @@
 
     {% comment %} Hero Section {% endcomment %}
 
-    <h2>Blogs by Category</h2>
-    {% for category, titles in category_dict.items %}
-        <h3>{{ category }}</h3>
-            {% for blog in titles %}
-                <a href="{% url 'blogDetail' blog.id %}">{{ blog.title }}</a>
-                <p>{{blog.author}}</p>
-                <p>{{blog.created_on}}</p>
-
-            {% endfor %}   
-    {% empty %}
-        <p>No blogs available.</p>
-    {% endfor %}
+   
     
     <section class="container mt-5">
-        <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
-            <div class="col-md-6 px-0">
-                <h1 class="display-4 ">Welcome To <span class="fst-italic"> GOSPL</span> Featured Blog Post</h1>
-                <p class="lead my-3">Explore insightful stories, inspiring messages, and thought-provoking discussions that bring faith and wisdom to your journey.</p>
-                <p class="lead mb-0"><a href="{% url "allBlogs" %}" class="text-white fw-bold">More Blogs</a></p>
+        
+        <div class="row p-4 p-md-5 mb-4 bg-light rounded shadow">
+            <h1 class="display-4 mt-3 text-center pb-4">Welcome To <span class="fst-italic text-primary">GRAND ORTUS</span> Featured Blog Post</h1>
+            <!-- Left Section -->
+            <div class="col-lg-6 px-3 text-center">
+                <img src="/media/blogImages/networking.webp" class="img-fluid rounded" alt="Networking">
+                <p class="lead my-3 text-muted">Explore insightful stories, inspiring messages, and thought-provoking discussions that bring faith and wisdom to your journey.</p>
+                <p class="lead mb-0">
+                    <a href="{% url 'allBlogs' %}" class="fw-bold btn btn-primary">More Blogs</a>
+                </p>
+            </div>
+    
+            <!-- Right Section (Blogs by Category) -->
+            <div class="col-lg-6 px-3">
+                {% comment %} <h2 class="text-center text-dark mb-3">Blogs by Category</h2> {% endcomment %}
+                {% for category, titles in category_dict.items %}
+                    <div class="mb-4 p-3 border rounded bg-white shadow-sm">
+                        <h3 class="text-primary">{{ category }}</h3>
+                        {% for blog in titles %}
+                            <div class="mb-2">
+                                <a href="{% url 'blogDetail' blog.id %}" class="text-dark fw-bold text-decoration-none">{{ blog.title }}</a>
+                                <p class="text-muted mb-1"><small>By {{ blog.author }} | {{ blog.created_on }}</small></p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% empty %}
+                    <p class="text-center text-muted">No blogs available.</p>
+                {% endfor %}
             </div>
         </div>
     </section>
+    
 
     <div class="container py-5 ">
         <h1 class="text-start">Latest News on Health Topics</h1>
