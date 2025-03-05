@@ -16,5 +16,7 @@ urlpatterns = [
     path('postComment', views.postComment, name='postComment'),
     path('search/', views.search, name='search'),
     path('allBlogs/', views.allBlogs, name='allBlogs'),
+    path('archives/<int:year>/', views.archive_by_year, name='archive_by_year'),
+    path('archives/<int:year>/<str:month>/', views.archive_by_month, name='archive_by_month'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
