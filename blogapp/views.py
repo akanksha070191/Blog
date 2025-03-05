@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import render,redirect, get_object_or_404, get_list_or_404
 from .models import BlogPost, signInUser, CommentPost
 from django.contrib import messages
 from django.http import JsonResponse
@@ -6,18 +6,46 @@ from django.contrib.auth.hashers import check_password, make_password
 import re
 from blogapp.templatetags import get_dict
 from django.core.paginator import Paginator
+from django.db.models.functions import TruncYear, TruncMonth
 
 def blog(request):
     allBlog = BlogPost.objects.filter().order_by('-created_on')[:4]
     categoryList = BlogPost.objects.values('category').distinct()
+    blogPost = BlogPost.objects.all().order_by('-created_on')
     category_dict = {}
+    archive_dict= {}
 
     for category in categoryList:
         blogCategory = BlogPost.objects.filter(category=category['category']).order_by('-created_on')[:2]
-        titles = [{'id': blog.id, 'title': blog.title, 'author': blog.author, 'created_on':blog.created_on} for blog in blogCategory]  
+        titles = [{'id': blog.id, 'title': blog.title, 'image': blog.image, 'author': blog.author, 'created_on':blog.created_on} for blog in blogCategory]  
         if titles:
             category_dict[category['category']] = titles
-    return render(request, 'blog.html', {'allBlog': allBlog, 'category_dict': category_dict})
+
+    posts_by_year = blogPost.annotate(year=TruncYear('created_on')).values('year').distinct()
+    for year_data in posts_by_year:
+        year = year_data['year'].year
+        archive_dict[year] = {}
+
+        # Get unique months for each year
+        posts_by_month = blogPost.filter(created_on__year=year).annotate(month=TruncMonth('created_on')).values('month').distinct()
+
+        for month_data in posts_by_month:
+            month = month_data['month'].strftime('%b %Y')
+            archive_dict[year][month] = BlogPost.objects.filter(
+                created_on__year=year,
+                created_on__month=month_data['month'].month
+            )
+    return render(request, 'blog.html', {'allBlog': allBlog, 'category_dict': category_dict, 'archive_dict': archive_dict})
+
+def archive_by_year(request, year):
+    posts = get_list_or_404(BlogPost.objects.order_by('-created_on'), created_on__year=year)
+    return render(request, 'archive_list.html', {'posts': posts, 'title': f'Blogs for {year}'})
+
+def archive_by_month(request, year, month):
+    from datetime import datetime
+    month_number = datetime.strptime(month, '%b %Y').month  
+    posts = get_list_or_404(BlogPost.objects.order_by('-created_on'), created_on__year=year, created_on__month=month_number)
+    return render(request, 'archive_list.html', {'posts': posts, 'title': f'Blogs for {month}'})
 
 def signin(request):
     return render(request, 'signin.html')
