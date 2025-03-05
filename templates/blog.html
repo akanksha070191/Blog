@@ -65,7 +65,7 @@
                 </form>
                 {% if  request.session.username %}
                 <div class="user-info" onclick="toggleDropdown()">
-                    <i class="user-icon bi bi-person-fill"></i> <!-- User icon -->
+                    <i class="user-icon bi bi-person-fill"></i> 
                     <div class="signout-dropdown">
                         <p>{{ request.session.username }}</p>
                         <button class="signout-btn" onclick="window.location.href='{% url "signout" %}'">Sign out</button>
@@ -80,6 +80,19 @@
     </nav>
 
     {% comment %} Hero Section {% endcomment %}
+
+    <h2>Blogs by Category</h2>
+    {% for category, titles in category_dict.items %}
+        <h3>{{ category }}</h3>
+            {% for blog in titles %}
+                <a href="{% url 'blogDetail' blog.id %}">{{ blog.title }}</a>
+                <p>{{blog.author}}</p>
+                <p>{{blog.created_on}}</p>
+
+            {% endfor %}   
+    {% empty %}
+        <p>No blogs available.</p>
+    {% endfor %}
     
     <section class="container mt-5">
         <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">

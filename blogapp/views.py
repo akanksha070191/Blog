@@ -9,7 +9,15 @@ from django.core.paginator import Paginator
 
 def blog(request):
     allBlog = BlogPost.objects.filter().order_by('-created_on')[:4]
-    return render(request, 'blog.html', {'allBlog': allBlog})
+    categoryList = BlogPost.objects.values('category').distinct()
+    category_dict = {}
+
+    for category in categoryList:
+        blogCategory = BlogPost.objects.filter(category=category['category']).order_by('-created_on')[:2]
+        titles = [{'id': blog.id, 'title': blog.title, 'author': blog.author, 'created_on':blog.created_on} for blog in blogCategory]  
+        if titles:
+            category_dict[category['category']] = titles
+    return render(request, 'blog.html', {'allBlog': allBlog, 'category_dict': category_dict})
 
 def signin(request):
     return render(request, 'signin.html')
