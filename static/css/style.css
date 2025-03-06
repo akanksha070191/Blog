@@ -147,3 +147,18 @@
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
+    .img-left {
+        float: left;
+        margin: 0 20px 20px 0;  
+    }
+    
+    .img-right {
+        float: right;
+        margin: 0 0 20px 20px; 
+    }
+    
+    .img-center {
+        display: block;
+        margin: 20px auto;       
+    }
+    

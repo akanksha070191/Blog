@@ -81,23 +81,7 @@
 
     {% comment %} Hero Section {% endcomment %}
 
-<<<<<<< HEAD
-   
-=======
-    <h2>Blogs by Category</h2>
-    {% for category, titles in category_dict.items %}
-        <h3>{{ category }}</h3>
-            {% for blog in titles %}
-                <img src="{{blog.image.url}}" alt="" srcset="" width="50px;">
-                <a href="{% url 'blogDetail' blog.id %}">{{ blog.title }}</a>
-                <p>{{blog.author}}</p>
-                <p>{{blog.created_on}}</p>
-
-            {% endfor %}   
-    {% empty %}
-        <p>No blogs available.</p>
-    {% endfor %}
-
+    
     <h2>Archives</h2>
     {% for year, months in archive_dict.items %}
             
@@ -106,7 +90,6 @@
                 {% endfor %}  
                 <a href="{% url 'archive_by_year' year %}">{{ year }}</a>    
     {% endfor %}
->>>>>>> 114179347d28da331b1d72d8c1b9d13b2cb785cc
     
     <section class="container mt-5">
         

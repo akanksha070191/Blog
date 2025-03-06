@@ -7,10 +7,16 @@ import re
 from blogapp.templatetags import get_dict
 from django.core.paginator import Paginator
 from django.db.models.functions import TruncYear, TruncMonth
+import os
+from django.conf import settings
+from django.core.files.storage import default_storage
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 
 def blog(request):
     allBlog = BlogPost.objects.filter().order_by('-created_on')[:4]
-    categoryList = BlogPost.objects.values('category').distinct()
+    categoryList = BlogPost.objects.values('category').order_by('-created_on').distinct()[:3]
     blogPost = BlogPost.objects.all().order_by('-created_on')
     category_dict = {}
     archive_dict= {}
@@ -181,6 +187,26 @@ def allBlogs(request):
 def signOut(request):
     request.session.flush()
     return redirect('blog')
+
+@csrf_exempt
+def upload_file(request):
+    if request.method == 'POST':
+        file = request.FILES.get('file')
+        if file:
+            # Check if it's an image or video
+            file_extension = file.name.split('.')[-1].lower()
+            if file_extension in ['jpg', 'jpeg', 'png', 'gif']:
+                file_path = os.path.join('blogImages', file.name)
+            elif file_extension in ['mp4', 'webm', 'ogg']:
+                file_path = os.path.join('blogVideos', file.name)
+            else:
+                return JsonResponse({'error': 'Invalid file type'}, status=400)
+
+            # Save file
+            saved_path = default_storage.save(file_path, file)
+            file_url = settings.MEDIA_URL + saved_path
+            return JsonResponse({'location': file_url})
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
 
