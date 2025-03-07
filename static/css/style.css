@@ -154,3 +154,24 @@
         margin: 20px auto;       
     }
     
+.signout-btn:hover {
+    background: linear-gradient(135deg, #e84118, #c23616);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+}
+
+.signout-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.blog-link {
+    transition: all 0.3s ease-in-out;
+}
+
+.blog-link:hover {
+    color: #007bff !important;
+    /* Bootstrap Primary Blue */
+    text-decoration: underline !important;
+}

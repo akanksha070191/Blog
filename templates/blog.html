@@ -89,27 +89,36 @@
             </h1>
     
             <!-- Left Section (Feature Image & Intro) -->
-            <div class="col-lg-6 text-center">
-                <img src="/media/blogImages/networking.webp" class="img-fluid rounded mb-3" alt="Networking">
-                <p class="lead text-muted text-uppercase">
-                    Explore insightful stories, inspiring messages, and thought-provoking discussions that bring faith and wisdom to your journey.
-                </p>
-                <a href="{% url 'allBlogs' %}" class="fw-bold btn btn-primary text-uppercase">More Blogs</a>
+            <div class="col-lg-6" style="border-right: 1px solid #ddd; padding: 30px;">
+                {% for blog in latestBlog %}
+                <img src="{{blog.image.url}}" class="img-fluid rounded mb-3" alt="image">
+                <h5 class="mt-1 text-primary text-uppercase">{{ blog.category }}</h5>
+                <a href="{% url "blogDetail" blog.id %}" class="h5 text-dark text-decoration-none d-block blog-link">
+                    {{ blog.title }}
+                </a>
+                <p class="text-muted">
+                    By: {{blog.author}} | {{blog.created_on}}
+                 </p>
+                {% endfor %}
+                <a href="{% url 'allBlogs' %}" class="fw-bold btn btn-primary text-uppercase mt-5">More Blogs</a>
             </div>
     
             <!-- Right Section (Blogs by Category) -->
             <div class="col-lg-6">
                 {% for category, titles in category_dict.items %}
-                    <h3 class="mt-4 text-primary text-uppercase">{{ category }}</h3>
+                    <h4 class="mt-4 text-primary text-uppercase">{{ category }}</h4>
                     {% for blog in titles %}
-                        <div class="d-flex align-items-center border-bottom py-2">
+                        <div class="d-flex align-items-center px-2 py-2">
                             <img src="{{ blog.image.url }}" class="rounded" width="80px" height="80px" style="object-fit: cover; margin-right: 15px;">
                             <div>
                                 <a href="{% url 'blogDetail' blog.id %}" class="h5 text-dark text-decoration-none d-block blog-link text-uppercase">{{ blog.title }}</a>
                                 <p class="text-muted small mb-0 text-uppercase">By {{ blog.author }} | {{ blog.created_on }}</p>
                             </div>
                         </div>
-                    {% endfor %}   
+                    {% endfor %} 
+                    <div class="border-bottom">
+
+                    </div>  
                 {% empty %}
                     <p class="text-muted text-uppercase">No blogs available.</p>
                 {% endfor %}
@@ -164,19 +173,7 @@
             {% endfor %}
         </div>
 
-         <!-- Archives Section -->
-        <h2 class="mt-5 text-uppercase">Archives</h2>
-        <div class="row">
-            {% for year, months in archive_dict.items %}
-                <div class="col-md-12">
-                    <strong class="d-block fs-5 text-uppercase">{{ year }}</strong>
-                    {% for month, posts in months.items %}
-                        <a href="{% url 'archive_by_month' year month %}" class="btn btn-sm btn-outline-primary m-1 text-uppercase">{{ month }}</a>
-                    {% endfor %}
-                    <a href="{% url 'archive_by_year' year %}" class="btn btn-sm btn-primary m-1 text-uppercase">View {{ year }}</a>
-                </div>
-            {% endfor %}
-        </div>
+         
     </div>
 
 

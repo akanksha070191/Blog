@@ -16,8 +16,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 def blog(request):
     allBlog = BlogPost.objects.filter().order_by('-created_on')[:4]
-    categoryList = BlogPost.objects.values('category').order_by('-created_on').distinct()[:3]
-    blogPost = BlogPost.objects.all().order_by('-created_on')
+    latestBlog = BlogPost.objects.filter().order_by('-created_on')[:1]
+    categoryList = BlogPost.objects.values('category').order_by('-created_on').distinct()[1:4]
+
     category_dict = {}
     archive_dict= {}
 
@@ -27,12 +28,46 @@ def blog(request):
         if titles:
             category_dict[category['category']] = titles
 
+    
+    return render(request, 'blog.html', {'allBlog': allBlog, 'category_dict': category_dict, 'latestBlog':latestBlog})
+
+def archive_by_year(request, year):
+    posts = get_list_or_404(BlogPost.objects.order_by('-created_on'), created_on__year=year)
+    paginator = Paginator(posts, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'archive_list.html', {'posts': posts, 'title': f'Blogs for {year}', 'page_obj': page_obj})
+
+def archive_by_month(request, year, month):
+    from datetime import datetime
+    month_number = datetime.strptime(month, '%b %Y').month  
+    posts = get_list_or_404(BlogPost.objects.order_by('-created_on'), created_on__year=year, created_on__month=month_number)
+    paginator = Paginator(posts, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'archive_list.html', {'posts': posts, 'title': f'Blogs for {month}', 'page_obj': page_obj})
+
+def signin(request):
+    return render(request, 'signin.html')
+
+def blogDetail(request, blog_id):
+    blog = BlogPost.objects.get(id=blog_id)
+    blogPost = BlogPost.objects.all().order_by('-created_on')
+    comment = CommentPost.objects.filter(title=blog.id, parent=None).order_by('-posted_time')
+    replies = CommentPost.objects.filter(title=blog.id).order_by('-posted_time').exclude(parent=None)
+    replyDict = {}
+    archive_dict= {}
+    for reply in replies:
+        if reply.parent.id not in replyDict.keys():
+            replyDict[reply.parent.id]=[reply]
+        else:
+            replyDict[reply.parent.id].append(reply)
+    
     posts_by_year = blogPost.annotate(year=TruncYear('created_on')).values('year').distinct()
     for year_data in posts_by_year:
         year = year_data['year'].year
         archive_dict[year] = {}
 
-        # Get unique months for each year
         posts_by_month = blogPost.filter(created_on__year=year).annotate(month=TruncMonth('created_on')).values('month').distinct()
 
         for month_data in posts_by_month:
@@ -41,32 +76,6 @@ def blog(request):
                 created_on__year=year,
                 created_on__month=month_data['month'].month
             )
-    return render(request, 'blog.html', {'allBlog': allBlog, 'category_dict': category_dict, 'archive_dict': archive_dict})
-
-def archive_by_year(request, year):
-    posts = get_list_or_404(BlogPost.objects.order_by('-created_on'), created_on__year=year)
-    return render(request, 'archive_list.html', {'posts': posts, 'title': f'Blogs for {year}'})
-
-def archive_by_month(request, year, month):
-    from datetime import datetime
-    month_number = datetime.strptime(month, '%b %Y').month  
-    posts = get_list_or_404(BlogPost.objects.order_by('-created_on'), created_on__year=year, created_on__month=month_number)
-    return render(request, 'archive_list.html', {'posts': posts, 'title': f'Blogs for {month}'})
-
-def signin(request):
-    return render(request, 'signin.html')
-
-def blogDetail(request, blog_id):
-    blog = BlogPost.objects.get(id=blog_id)
-    comment = CommentPost.objects.filter(title=blog.id, parent=None).order_by('-posted_time')
-    replies = CommentPost.objects.filter(title=blog.id).order_by('-posted_time').exclude(parent=None)
-    replyDict = {}
-    for reply in replies:
-        if reply.parent.id not in replyDict.keys():
-            replyDict[reply.parent.id]=[reply]
-        else:
-            replyDict[reply.parent.id].append(reply)
-    print('reply Dict:', replyDict)
 
 
     otherBlog = BlogPost.objects.exclude(id=blog_id).order_by('-created_on')[:3]
@@ -91,7 +100,8 @@ def blogDetail(request, blog_id):
     return render(request, 'blogDetail.html', {'blog':blog, 'otherBlog':otherBlog, 'username': username, 'formattedContent':formatted_content,
                                                 'comments':comment,
                                                 'count': comment.count(),
-                                                'replyDict': replyDict})
+                                                'replyDict': replyDict,
+                                                'archive_dict': archive_dict})
 
 def signInNewUser(request):
     if request.method == 'POST':
@@ -170,10 +180,13 @@ def postComment(request):
 def search(request):
     query = request.GET.get('query', '')
     searchBlogList = BlogPost.objects.filter(title__icontains=query).order_by('-created_on') if query else BlogPost.objects.all().order_by('-created_on')
-    allPosts = BlogPost.objects.filter(content__icontains=query).order_by('-created_on')
+    contentPosts = BlogPost.objects.filter(content__icontains=query).order_by('-created_on')
     authorPost = BlogPost.objects.filter(author__icontains=query).order_by('-created_on')
-    unionBlog = searchBlogList.union(allPosts)
-    searchBlog = unionBlog.union(authorPost)
+    categoryPost = BlogPost.objects.filter(category__icontains=query).order_by('-created_on')
+    unionBlogList = searchBlogList.union(contentPosts)
+    unionPostList = authorPost.union(categoryPost)
+
+    searchBlog = unionBlogList.union(unionPostList).order_by('-created_on')
 
     return render(request, 'search.html', {'searchBlog': searchBlog, 'query': query})
 

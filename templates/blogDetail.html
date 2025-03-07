@@ -217,7 +217,7 @@
         {% endif %}
     </div>
 
-  <div class="container">
+<div class="container">
     <h2 class="col-lg-4">Comments ({{count}})</h2>
     <div class="row my-2">
         <form action="/postComment" method="post">
@@ -338,10 +338,23 @@
             </a>
             <img src="/media/blogImages/arrow.svg" alt="Logo">
         </button>
-        
-       
-    
     </div> 
+
+     <!-- Archives Section -->
+     <h2 class="mt-5 text-uppercase">Archives</h2>
+     <div class="row">
+         {% for year, months in archive_dict.items %}
+             <div class="col-md-12">
+                 {% comment %} <strong class="d-block fs-5 text-uppercase">{{ year }}</strong> {% endcomment %}
+                 {% for month, posts in months.items %}
+                     <a href="{% url 'archive_by_month' year month %}" class="btn btn-sm btn-outline-primary m-1 text-uppercase">{{ month }}</a>
+                 {% endfor %}
+                 <a href="{% url 'archive_by_year' year %}" class="btn btn-sm btn-primary m-1 text-uppercase">View {{ year }}</a>
+             </div>
+         {% endfor %}
+     </div>
+
+
 
     <footer class="bg-dark text-light py-4">
         <div class="container text-center">
