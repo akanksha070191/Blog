@@ -120,6 +120,61 @@ USE_I18N = True
 USE_TZ = True
 
 
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 500,
+    'width': 800,
+    'plugins': 'image, media, link, code, table, lists',
+    'toolbar': 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image media link | code',
+    'image_caption': True,
+    'automatic_uploads': True,
+    'file_picker_types': 'image media',
+    'media_live_embeds': True,  # Enable live preview for media
+    'media_alt_source': False,   # Optional: Disable alternative sources if not needed
+    'image_advtab': True,
+    'relative_urls': False,
+    'file_browser_callback_types': 'file image media',
+    'image_class_list': [
+        {'title': 'Left', 'value': 'img-left'},
+        {'title': 'Right', 'value': 'img-right'},
+        {'title': 'Center', 'value': 'img-center'},
+    ],
+    'file_picker_callback': """
+        function(callback, value, meta) {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'file');
+
+            // Check file type for image or media
+            if (meta.filetype === 'image') {
+                input.setAttribute('accept', 'image/*');
+            } else if (meta.filetype === 'media') {
+                input.setAttribute('accept', 'video/*');
+            }
+
+            input.onchange = function() {
+                var file = this.files[0];
+                var formData = new FormData();
+                formData.append('file', file);
+
+                fetch('/upload/', {  // Your Django upload URL
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    callback(data.location);  // Use the uploaded file URL
+                });
+            };
+            input.click();
+        }
+    """,
+}
+
+# Increase to 10MB (adjust as needed)
+DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 10MB in bytes
+
+# Optional: Increase FILE_UPLOAD_MAX_MEMORY_SIZE for file uploads
+FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 10MB in bytes
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 

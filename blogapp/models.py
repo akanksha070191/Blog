@@ -9,6 +9,7 @@ class BlogPost(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='blogImages/', blank=True, null=True)
+    video = models.FileField(upload_to='blogVideos/', blank=True, null=True)
 
     def __str__(self):
         return self.title
