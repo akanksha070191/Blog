@@ -19,5 +19,6 @@ urlpatterns = [
     path('archives/<int:year>/', views.archive_by_year, name='archive_by_year'),
     path('archives/<int:year>/<str:month>/', views.archive_by_month, name='archive_by_month'),
     path('upload/', views.upload_file, name='upload_file'),
+    path('keywordSearch/<str:keyword>/', views.keywordSearch, name='keywordSearch'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

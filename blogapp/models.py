@@ -6,6 +6,7 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100, null=True)
     content = tinymce_models.HTMLField()
+    keywords = models.TextField(null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='blogImages/', blank=True, null=True)

@@ -194,7 +194,7 @@
             </div>
             <div class="col-12 mx-auto d-flex justify-content-center">
                 <div style="max-width: 70%; text-align: left; word-wrap: break-word;">
-                    <p class="text-left fw-medium fs-5">{{formattedContent|safe}}</p>
+                    <p class="text-left fw-medium fs-5">{{blog.content|safe}}</p>
                 </div>
             </div>
         </div>
@@ -350,6 +350,16 @@
                      <a href="{% url 'archive_by_month' year month %}" class="btn btn-sm btn-outline-primary m-1 text-uppercase">{{ month }}</a>
                  {% endfor %}
                  <a href="{% url 'archive_by_year' year %}" class="btn btn-sm btn-primary m-1 text-uppercase">View {{ year }}</a>
+             </div>
+         {% endfor %}
+     </div>
+
+     <!-- Keywords Section -->
+     <h2 class="mt-5 text-uppercase">Keywords</h2>
+     <div class="row">
+         {% for key in keyList %}
+             <div class="col-md-12">
+                <a href="{% url "keywordSearch" key %}">{{ key }}</a>
              </div>
          {% endfor %}
      </div>

@@ -12,6 +12,7 @@ from django.conf import settings
 from django.core.files.storage import default_storage
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import ast
 
 
 def blog(request):
@@ -20,7 +21,6 @@ def blog(request):
     categoryList = BlogPost.objects.values('category').order_by('-created_on').distinct()[1:4]
 
     category_dict = {}
-    archive_dict= {}
 
     for category in categoryList:
         blogCategory = BlogPost.objects.filter(category=category['category']).order_by('-created_on')[:2]
@@ -53,10 +53,14 @@ def signin(request):
 def blogDetail(request, blog_id):
     blog = BlogPost.objects.get(id=blog_id)
     blogPost = BlogPost.objects.all().order_by('-created_on')
+    blogKeyword = BlogPost.objects.values_list('keywords', flat=True)
     comment = CommentPost.objects.filter(title=blog.id, parent=None).order_by('-posted_time')
     replies = CommentPost.objects.filter(title=blog.id).order_by('-posted_time').exclude(parent=None)
     replyDict = {}
     archive_dict= {}
+    key_list = []
+    keys = ""
+    
     for reply in replies:
         if reply.parent.id not in replyDict.keys():
             replyDict[reply.parent.id]=[reply]
@@ -77,31 +81,31 @@ def blogDetail(request, blog_id):
                 created_on__month=month_data['month'].month
             )
 
-
     otherBlog = BlogPost.objects.exclude(id=blog_id).order_by('-created_on')[:3]
+    
+    # for blogKey in blogPost:
+    #     if blogKey.keywords:
+    #         keys = keys + blogKey.keywords
+    #         keyList = [key.strip() for key in keys.split(',')]    
+    #     else:
+    #         pass
+    # print('keylist:', keyList)
 
-    sentences = re.split(r'(\. )', blog.content)  
-    paragraph_size = 3 
-    paragraphs = []
-    temp_paragraph = ""
 
-    for i, sentence in enumerate(sentences):
-        temp_paragraph += sentence
-        if (i + 1) % (paragraph_size * 2) == 0:
-            paragraphs.append(temp_paragraph.strip())
-            temp_paragraph = ""
+    for blogKey in blogKeyword:
+        if blogKey:
+            keyList = [key.strip() for key in blogKey.split(',')]
+            print(keyList)
+            key_list = list(set(keyList))
 
-    if temp_paragraph:
-        paragraphs.append(temp_paragraph.strip())
-
-    formatted_content = "\n\n".join(paragraphs)
-     
     username = request.session.get('username')
-    return render(request, 'blogDetail.html', {'blog':blog, 'otherBlog':otherBlog, 'username': username, 'formattedContent':formatted_content,
+    return render(request, 'blogDetail.html', {'blog':blog, 'otherBlog':otherBlog, 'username': username,
                                                 'comments':comment,
                                                 'count': comment.count(),
                                                 'replyDict': replyDict,
-                                                'archive_dict': archive_dict})
+                                                'archive_dict': archive_dict,
+                                                'keyList': key_list
+                                                })
 
 def signInNewUser(request):
     if request.method == 'POST':
@@ -220,6 +224,11 @@ def upload_file(request):
             file_url = settings.MEDIA_URL + saved_path
             return JsonResponse({'location': file_url})
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+def keywordSearch(request, keyword):
+    posts = BlogPost.objects.filter(keywords__icontains=keyword)
+    return render(request, 'keywordSearch.html', {'post': posts })
+
 
 
 
