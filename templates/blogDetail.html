@@ -192,15 +192,36 @@
             <div class="col-lg-10 d-flex justify-content-center my-4">
                 <img src="{{ blog.image.url }}" class="img-fluid rounded" alt="Blog Image" style="max-width: 70%; height: auto;">
             </div>
-            <div class="col-md-12 ">
-                <h5 class="text-secondary">{{blog.created_on}}</h5>
-            </div>
-            <div class="col-12 text-center my-3">
-                <img src="{{blog.image.url}}" class="img-fluid" alt="Blog Image" style="max-width: 70%; height: auto;" >
-            </div>
-            <div class="col-12 mx-auto d-flex justify-content-center">
-                <div style="max-width: 70%; text-align: left; word-wrap: break-word;">
-                    <p class="text-left fw-medium fs-5">{{blog.content|safe}}</p>
+    
+            <!-- Blog Content and Archives Section -->
+            <div class="col-lg-10">
+                <div class="row">
+                    <!-- Blog Content -->
+                    <div class="col-lg-8">
+                        <div class="p-4" style="word-wrap: break-word; text-align: justify; font-size: 1.1rem; font-family: 'Arial', sans-serif; line-height: 1.6; max-width: 100%;">
+                            <p class="fw-medium text-dark">{{ blog.content|safe }}</p>
+                        </div>
+                    </div>
+    
+                    <!-- Archives Section -->
+                    <div class="col-lg-4">
+                        <h2 class="text-uppercase text-center border-bottom pb-2" style="font-size: 1.5rem; font-family: 'Arial', sans-serif;">Archives</h2>
+                        {% for year, months in archive_dict.items %}
+                            <div class="text-center mt-3">
+                                {% comment %} <strong class="d-block fs-5 text-uppercase text-primary" style="font-size: 1.3rem; font-family: 'Arial', sans-serif;">{{ year }}</strong> {% endcomment %}
+                            </div>
+                            <div class="row justify-content-center">
+                                {% for month, posts in months.items %}
+                                    <div class="col-12 text-center mt-2">
+                                        <a href="{% url 'archive_by_month' year month %}" class="text-uppercase" style="font-size: 1rem; font-family: 'Arial', sans-serif;">{{ month }}</a>
+                                    </div>
+                                {% endfor %}
+                                <div class="col-12 text-center mt-2">
+                                    <a href="{% url 'archive_by_year' year %}" class="text-uppercase" style="font-size: 1rem; font-family: 'Arial', sans-serif;">View {{ year }}</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
