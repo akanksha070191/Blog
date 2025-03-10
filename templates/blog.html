@@ -81,12 +81,24 @@
 
     {% comment %} Hero Section {% endcomment %}
 
+    <div class="container">
+        <div class="row mt-4 bg-dark">
+            <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+                <div class="col-md-6 px-0">
+                  <h1 class="display-4 fst-italic">GRAND ORTUS</span> Featured Blog Post</h1>
+                  <p class="lead my-3">Grand Ortus, we specialize in delivering cutting-edge technology.Grand Ortus, we specialize in delivering cutting-edge technology.</p>
+                  <a href="{% url 'allBlogs' %}" class=" fw-bold btn btn-primary text-uppercase mt-5">More Blogs</a>
+                </div>
+              </div>
+
+        </div>
+    </div>
+
+    
     <section class="container mt-5">
         <!-- Featured Blog Post Section -->
-        <div class="row p-4 p-md-5 mb-4 bg-light rounded shadow">
-            <h1 class="display-4 mt-3 text-center pb-4 text-uppercase">
-                Welcome To <span class="fst-italic text-primary">GRAND ORTUS</span> Featured Blog Post
-            </h1>
+        <div class="row p-4 p-md-5 mb-4  ">
+            
     
             <!-- Left Section (Feature Image & Intro) -->
             <div class="col-lg-6" style="border-right: 1px solid #ddd; padding: 30px;">
@@ -100,7 +112,6 @@
                     By: {{blog.author}} | {{blog.created_on}}
                  </p>
                 {% endfor %}
-                <a href="{% url 'allBlogs' %}" class="fw-bold btn btn-primary text-uppercase mt-5">More Blogs</a>
             </div>
     
             <!-- Right Section (Blogs by Category) -->
