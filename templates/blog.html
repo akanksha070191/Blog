@@ -102,16 +102,19 @@
     
             <!-- Left Section (Feature Image & Intro) -->
             <div class="col-lg-6" style="border-right: 1px solid #ddd; padding: 30px;">
-                {% for blog in latestBlog %}
-                <img src="{{blog.image.url}}" class="img-fluid rounded mb-3" alt="image">
-                <h5 class="mt-1 text-primary text-uppercase">{{ blog.category }}</h5>
-                <a href="{% url "blogDetail" blog.id %}" class="h5 text-dark text-decoration-none d-block blog-link">
-                    {{ blog.title }}
+                {% comment %} {% for blog in latestBlog %} {% endcomment %}
+                <img src="{{latestBlog.image.url}}" class="img-fluid rounded mb-3" alt="image">
+                <h5 class="mt-1 text-primary text-uppercase">{{ latestBlog.category }}</h5>
+                <a href="{% url "blogDetail" latestBlog.id %}" class="h5 text-dark text-decoration-none d-block blog-link">
+                    {{ latestBlog.title }}
                 </a>
                 <p class="text-muted">
-                    By: {{blog.author}} | {{blog.created_on}}
+                    {{latestBlog.content|safe|truncatechars:210}}
                  </p>
-                {% endfor %}
+                <p class="text-muted">
+                    By: {{latestBlog.author}} | {{latestBlog.created_on}}
+                 </p>
+                {% comment %} {% endfor %} {% endcomment %}
             </div>
     
             <!-- Right Section (Blogs by Category) -->

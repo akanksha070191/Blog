@@ -13,20 +13,28 @@ from django.core.files.storage import default_storage
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import ast
+from django.db.models import Max
 
 
 def blog(request):
     allBlog = BlogPost.objects.filter().order_by('-created_on')[:4]
-    latestBlog = BlogPost.objects.filter().order_by('-created_on')[:1]
-    categoryList = BlogPost.objects.values('category').order_by('-created_on').distinct()[1:4]
+    latestBlog = BlogPost.objects.filter().order_by('-created_on').first()
+
+    categoryList = (
+    BlogPost.objects.values('category')  
+    .annotate(latest_post=Max('created_on')) 
+    .order_by('-latest_post')  
+    .values_list('category', flat=True)[:3]
+)
+
 
     category_dict = {}
 
     for category in categoryList:
-        blogCategory = BlogPost.objects.filter(category=category['category']).order_by('-created_on')[:2]
+        blogCategory = BlogPost.objects.filter(category=category).exclude(id=latestBlog.id).order_by('-created_on')[:2]
         titles = [{'id': blog.id, 'title': blog.title, 'image': blog.image, 'author': blog.author, 'created_on':blog.created_on} for blog in blogCategory]  
         if titles:
-            category_dict[category['category']] = titles
+            category_dict[category] = titles
 
     
     return render(request, 'blog.html', {'allBlog': allBlog, 'category_dict': category_dict, 'latestBlog':latestBlog})
@@ -217,7 +225,7 @@ def upload_file(request):
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
 def keywordSearch(request, keyword):
-    posts = BlogPost.objects.filter(keywords__icontains=keyword)
+    posts = BlogPost.objects.filter(keywords__icontains=keyword).order_by('-created_on')
     paginator = Paginator(posts, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
