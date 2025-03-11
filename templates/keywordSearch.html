@@ -27,7 +27,7 @@
 </style>
 
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 
     <!-- NaveBar -->
     <nav class="navbar sticky-top navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark"  >
@@ -96,7 +96,7 @@
       
     <div class="container mt-4">
         <div class="row">
-            {% for singlePost in post %}
+            {% for singlePost in page_obj %}
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="">
                    
@@ -112,6 +112,7 @@
                         <p class="text-secondary" style="font-size: 0.9rem;">
                             {{ singlePost.content|safe|truncatechars:150 }}
                         </p>
+
                         <a href="{% url 'blogDetail' singlePost.id %}" class="btn btn-primary btn-sm">Read More</a>
                     </div>
                 </div>
@@ -119,13 +120,6 @@
             {% endfor %}
         </div>
     </div>
-    
-    
-    
-        
- 
-
-
 
     <div class="container">
         <nav aria-label="Page navigation example">
@@ -159,7 +153,7 @@
     
 
 {% comment %} Footer Section {% endcomment %}
-    <footer class="bg-dark text-light py-4">
+    <footer class="bg-dark text-light py-4 mt-auto">
         <div class="container text-center">
             <div class="row">
                 <!-- Navigation Links -->
