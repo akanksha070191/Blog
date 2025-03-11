@@ -89,6 +89,7 @@ def blogDetail(request, blog_id):
             keyList = [key.strip() for key in keys.split(',')]
             print(keyList)
             key_list = list(set(keyList))
+            print('distinct key list:', key_list)
 
     username = request.session.get('username')
     return render(request, 'blogDetail.html', {'blog':blog, 'otherBlog':otherBlog, 'username': username,
@@ -98,7 +99,6 @@ def blogDetail(request, blog_id):
                                                 'archive_dict': archive_dict,
                                                 'keyList': key_list
                                                 })
-
 def signInNewUser(request):
     if request.method == 'POST':
         username = request.POST.get('username')
