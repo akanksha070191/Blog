@@ -58,8 +58,15 @@ def blogDetail(request, blog_id):
     replies = CommentPost.objects.filter(title=blog.id).order_by('-posted_time').exclude(parent=None)
     replyDict = {}
     archive_dict= {}
-    key_list = []
-    keys = ""
+
+    key_list = set()  
+    for blogKey in blogKeyword:
+        if blogKey:
+            keywords = [key.strip().lower() for key in blogKey.split(',') if key.strip()]  
+            key_list.update(keywords)  
+
+    key_list = sorted(key_list)  
+    
     
     for reply in replies:
         if reply.parent.id not in replyDict.keys():
@@ -82,14 +89,6 @@ def blogDetail(request, blog_id):
             )
 
     otherBlog = BlogPost.objects.exclude(id=blog_id).order_by('-created_on')[:3]
-    
-    for blogKey in blogKeyword:
-        if blogKey:
-            keys = keys + blogKey
-            keyList = [key.strip() for key in keys.split(',')]
-            print(keyList)
-            key_list = list(set(keyList))
-            print('distinct key list:', key_list)
 
     username = request.session.get('username')
     return render(request, 'blogDetail.html', {'blog':blog, 'otherBlog':otherBlog, 'username': username,
