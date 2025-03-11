@@ -83,20 +83,14 @@ def blogDetail(request, blog_id):
 
     otherBlog = BlogPost.objects.exclude(id=blog_id).order_by('-created_on')[:3]
     
-    # for blogKey in blogPost:
-    #     if blogKey.keywords:
-    #         keys = keys + blogKey.keywords
-    #         keyList = [key.strip() for key in keys.split(',')]    
-    #     else:
-    #         pass
-    # print('keylist:', keyList)
-
-
     for blogKey in blogKeyword:
         if blogKey:
-            keyList = [key.strip() for key in blogKey.split(',')]
-            print(keyList)
+            keys = keys + blogKey
+            print(keys)
+            keyList = [key.strip() for key in keys.split(',')]
+            print('keyList:', keyList)
             key_list = list(set(keyList))
+            print('distinct key list:', key_list)
 
     username = request.session.get('username')
     return render(request, 'blogDetail.html', {'blog':blog, 'otherBlog':otherBlog, 'username': username,
@@ -106,7 +100,6 @@ def blogDetail(request, blog_id):
                                                 'archive_dict': archive_dict,
                                                 'keyList': key_list
                                                 })
-
 def signInNewUser(request):
     if request.method == 'POST':
         username = request.POST.get('username')

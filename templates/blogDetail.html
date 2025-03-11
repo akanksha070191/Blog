@@ -111,6 +111,11 @@
     .View-more a:hover{
         text-decoration: underline ;
     }
+
+
+    .keyword-link:hover {
+            color: #007bff !important; /* Change color on hover */
+    }
 </style>
 
 
@@ -183,9 +188,15 @@
         <div class="row justify-content-center">
             <!-- Blog Title -->
             <div class="col-lg-10 text-center">
-                <h2 class="fw-bold text-primary" style="font-size: 2rem; font-family: 'Arial', sans-serif;">{{ blog.title }}</h2>
-                <h4 class="text-muted mt-2" style="font-size: 1.5rem; font-family: 'Arial', sans-serif;">{{ blog.author }}</h4>
-                <h5 class="text-secondary" style="font-size: 1.2rem; font-family: 'Arial', sans-serif;">{{ blog.created_on }}</h5>
+                <h2 class="fw-bold text-primary" style="font-size: 2rem; font-family: 'Arial', sans-serif;">
+                    {{ blog.title }}
+                </h2>
+                <h4 class="text-muted mt-2" style="font-size: 1.5rem; font-family: 'Arial', sans-serif;">
+                    {{ blog.author }}
+                </h4>
+                <h5 class="text-secondary" style="font-size: 1.2rem; font-family: 'Arial', sans-serif;">
+                    {{ blog.created_on }}
+                </h5>
             </div>
     
             <!-- Blog Image -->
@@ -208,19 +219,39 @@
                         <h2 class="text-uppercase text-center border-bottom pb-2" style="font-size: 1.5rem; font-family: 'Arial', sans-serif;">Archives</h2>
                         {% for year, months in archive_dict.items %}
                             <div class="text-center mt-3">
-                                {% comment %} <strong class="d-block fs-5 text-uppercase text-primary" style="font-size: 1.3rem; font-family: 'Arial', sans-serif;">{{ year }}</strong> {% endcomment %}
+                                <strong class="d-block fs-5 text-uppercase text-primary" style="font-size: 1.3rem; font-family: 'Arial', sans-serif;">
+                                    {{ year }}
+                                </strong>
                             </div>
                             <div class="row justify-content-center">
                                 {% for month, posts in months.items %}
                                     <div class="col-12 text-center mt-2">
-                                        <a href="{% url 'archive_by_month' year month %}" class="text-uppercase" style="font-size: 1rem; font-family: 'Arial', sans-serif;">{{ month }}</a>
+                                        <a href="{% url 'archive_by_month' year month %}" class="text-uppercase" style="font-size: 1rem; font-family: 'Arial', sans-serif;">
+                                            {{ month }}
+                                        </a>
                                     </div>
                                 {% endfor %}
                                 <div class="col-12 text-center mt-2">
-                                    <a href="{% url 'archive_by_year' year %}" class="text-uppercase" style="font-size: 1rem; font-family: 'Arial', sans-serif;">View {{ year }}</a>
+                                    <a href="{% url 'archive_by_year' year %}" class="text-uppercase" style="font-size: 1rem; font-family: 'Arial', sans-serif;">
+                                        View {{ year }}
+                                    </a>
                                 </div>
                             </div>
                         {% endfor %}
+    
+                        <!-- Keywords Section -->
+                        <h2 class="text-uppercase text-center border-bottom pb-2 mt-4" style="font-size: 1.5rem; font-family: 'Arial', sans-serif;">
+                            Keywords
+                        </h2>
+                        <div class="" style="">
+                            {% for key in keyList %}
+                                <a href="{% url 'keywordSearch' key %}" 
+                                   class="keyword-link text-dark text-decoration-none mx-1 p-2 border border-secondary rounded" 
+                                   style="font-size: 20px; font-family: 'Arial', sans-serif border-width: 1px;">
+                                    #{{ key }}
+                                </a>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -377,14 +408,14 @@
      
 
      <!-- Keywords Section -->
-     <h2 class="mt-5 text-uppercase">Keywords</h2>
+     {% comment %} <h2 class="mt-5 text-uppercase">Keywords</h2>
      <div class="row">
          {% for key in keyList %}
              <div class="col-md-12">
                 <a href="{% url "keywordSearch" key %}">{{ key }}</a>
              </div>
          {% endfor %}
-     </div>
+     </div> {% endcomment %}
 
 
 
