@@ -83,18 +83,10 @@ def blogDetail(request, blog_id):
 
     otherBlog = BlogPost.objects.exclude(id=blog_id).order_by('-created_on')[:3]
     
-    # for blogKey in blogPost:
-    #     if blogKey.keywords:
-    #         keys = keys + blogKey.keywords
-    #         keyList = [key.strip() for key in keys.split(',')]    
-    #     else:
-    #         pass
-    # print('keylist:', keyList)
-
-
     for blogKey in blogKeyword:
         if blogKey:
-            keyList = [key.strip() for key in blogKey.split(',')]
+            keys = keys + blogKey
+            keyList = [key.strip() for key in keys.split(',')]
             print(keyList)
             key_list = list(set(keyList))
 
