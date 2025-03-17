@@ -24,7 +24,7 @@ def blog(request):
     BlogPost.objects.values('category')  
     .annotate(latest_post=Max('created_on')) 
     .order_by('-latest_post')  
-    .values_list('category', flat=True)[:3]
+    .values_list('category', flat=True)[:4]
 )
 
 
