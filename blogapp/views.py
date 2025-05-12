@@ -99,6 +99,7 @@ def blogDetail(request, blog_id):
     otherBlog = BlogPost.objects.exclude(id=blog_id).order_by('-created_on')[:3]
 
     username = request.session.get('username')
+    print('comment count-', comment.count())
     return render(request, 'blogDetail.html', {'blog':blog, 'otherBlog':otherBlog, 'username': username,
                                                 'comments':comment,
                                                 'count': comment.count(),
@@ -159,12 +160,8 @@ def postComment(request):
             messages.error(request, 'You must be logged in to comment.')
             return redirect('signin')
         
-
-
-        # Get BlogPost instance
         blog = get_object_or_404(BlogPost, id=blogId)
 
-        # Get signInUser instance using username
         user = get_object_or_404(signInUser, username=username)
         print('emailId:', user.emailId)
 
