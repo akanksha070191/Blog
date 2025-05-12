@@ -110,7 +110,7 @@
 
     .View-more a{
         text-decoration: none;
-        font-size: 18px
+        font-size: 18px;
         font-weight:700;
     }
 
@@ -170,7 +170,7 @@
                         </a>
                     </li>
                 </ul>
-                <form action="{% url "search" %}" method="GET" class="d-flex" role="search">
+                <form action="{% url "search %" }" method="GET" class="d-flex" role="search">
                     <input class="form-control me-2" name="query" id="search" type="search" placeholder="Search" aria-label="Search">
                 </form>
                 {% if  request.session.username %}
@@ -264,13 +264,13 @@
                         <h2 class="text-uppercase text-center border-bottom pb-2 mt-4" style="font-size: 1.5rem; font-family: 'Arial', sans-serif;">
                             Tags
                         </h2>
-                        <div class="" style="">
+                        <div class="">
                             {% for key in keyList %}
                             {% if key.strip  %}
                             <span>
                                 <a href="{% url 'keywordSearch' key %}" 
                                    class="keyword-link text-dark text-decoration-none mx-1 my-1 d-inline-block p-1 border border-secondary rounded" 
-                                   style="font-size: 18px; font-family: 'Arial', sans-serif border-width: 1px;">
+                                   style="font-size: 18px; font-family: 'Arial', sans-serif border-width, 1px;">
                                     #{{ key }}
                                 </a>
                             </span>
@@ -383,7 +383,7 @@
                 <div class="stack-item shadow-sm border-0">
                     <div class="stack-image">
                         <img fetchpriority="high" decoding="async" class="img-fluid " src="{{ blogs.image.url }}"
-                            alt="Blog Image" style="width: 100%; height: 200px; object-fit: cover;">
+                            alt="Blog Image" style="width: 100%; height: 200px;">
                     </div>
                     <div class="stack-body">
                         <p class="text-muted mb-2">
