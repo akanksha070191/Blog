@@ -198,8 +198,8 @@
                     <h2 class="fw-bold text-primary" style="font-size: 2rem; font-family: 'Arial', sans-serif; margin: 0;">
                         {{ blog.title }}
                     </h2>
-                    <img src="/media/more-2-fill.png" alt="Share" style="width: 30px; height: 30px; cursor: pointer;" onclick="toggleShareMenu()">
-                    
+                    <!-- <img src="/media/more-2-fill.png" alt="Share" style="width: 30px; height: 30px; cursor: pointer;" onclick="toggleShareMenu()"> -->
+                    <i class="bi bi-three-dots-vertical" style="cursor: pointer;" onclick="toggleShareMenu()"></i>
                     <!-- Hidden Share Menu -->
                     <div id="shareMenu" style="display: none; position: absolute; right: 0; top: 40px; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); padding: 10px; z-index: 100;">
                         <a href="#" onclick="shareOn('facebook')" style="display: block; padding: 8px; text-decoration: none; color: black;">📘 Share on Facebook</a>
@@ -218,11 +218,11 @@
             </div>
     
             <!-- Blog Image -->
-            <div class="col-lg-10 d-flex justify-content-center my-4">
+            <div class="col-lg-10 d-flex justify-content-center my-4 " >
                 <img src="{{ blog.image.url }}" 
                      class="img-fluid rounded" 
                      alt="Blog Image" 
-                     style="width: 700px; height: 400px; object-fit: cover;">
+                     style="width: 700px; height: 100%; object-fit: cover;">
             </div>
     
             <!-- Blog Content and Archives Section -->
@@ -269,9 +269,9 @@
                             {% if key.strip  %}
                             <span>
                                 <a href="{% url 'keywordSearch' key %}" 
-                                   class="keyword-link text-dark text-decoration-none mx-1 my-1 d-inline-block p-1 border border-secondary rounded" 
-                                   style="font-size: 18px; font-family: 'Arial', sans-serif border-width, 1px;">
-                                    #{{ key }}
+                                   class="keyword-link text-dark text-decoration-none mx-1 d-inline-block" 
+                                   style="">
+                                    #{{ key }},
                                 </a>
                             </span>
                                 {% endif %}
