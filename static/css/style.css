@@ -176,6 +176,11 @@
     text-decoration: underline !important;
 }
 
+ .category-title{
+       text-wrap:wrap !important;
+
+    }
+
 /* .hero {
     background-image: url("/Blog/Blog/media/blogImages/3274764.jpg");
     background-position: center;
