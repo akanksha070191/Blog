@@ -229,5 +229,8 @@ def keywordSearch(request, keyword):
     return render(request, 'keywordSearch.html', {'post': posts, 'page_obj': page_obj })
 
 
+def about(request):
+    return render(request, 'about.html')
+
 
 

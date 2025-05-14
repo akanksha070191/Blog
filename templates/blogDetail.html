@@ -118,6 +118,11 @@
         text-decoration: underline ;
     }
 
+    .category-title{
+       text-wrap-mode:wrap;
+
+    }
+
 
     .keyword-link:hover {
             color: #007bff !important; /* Change color on hover */
@@ -219,7 +224,7 @@
     
             <!-- Blog Image -->
             <div class="col-lg-10 d-flex justify-content-center my-4 " >
-                <img src="{{ blog.image.url }}" 
+                <img src="{{ blog?.image?.url }}" 
                      class="img-fluid rounded" 
                      alt="Blog Image" 
                      style="width: 700px; height: 100%; object-fit: cover;">
@@ -390,7 +395,7 @@
                     <div class="stack-body">
                         <p class="text-muted mb-2">
                             {% if blogs.category %}
-                            <span class="badge bg-primary">{{ blogs.category }}</span>
+                            <span class="category-title bg-primary">{{ blogs.category }}</span>
                             {% endif %}
                         </p>
                         <h5 class="stack-title">
@@ -476,11 +481,23 @@
     
                 <!-- Copyright -->
                 <div class="col-12">
-                    <p class="mb-0">&copy; 2025 YourCompany. All Rights Reserved.</p>
+                    <p class="mb-0" id="current-date">&copy; 2025 YourCompany. All Rights Reserved.</p>
                 </div>
             </div>
         </div>
     </footer>
+<!-- Dynamic Date change -->
+    <script>
+        const dataElement = document.getElementById("current-date")
+
+        const Today = new Date();
+
+        const option = {year: 'numeric'};
+       const formattedDate = today.toLocaleDateString(undefined, options);
+
+
+        dateElement.textContent = formattedDate;
+    </script>
 
 <script src="/static/js/SignOut.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
