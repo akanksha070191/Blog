@@ -139,21 +139,21 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-    .img-left {
-        float: left;
-        margin: 0 20px 20px 0;  
-    }
-    
-    .img-right {
-        float: right;
-        margin: 0 0 20px 20px; 
-    }
-    
-    .img-center {
-        display: block;
-        margin: 20px auto;       
-    }
-    
+.img-left {
+    float: left;
+    margin: 0 20px 20px 0;
+}
+
+.img-right {
+    float: right;
+    margin: 0 0 20px 20px;
+}
+
+.img-center {
+    display: block;
+    margin: 20px auto;
+}
+
 .signout-btn:hover {
     background: linear-gradient(135deg, #e84118, #c23616);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
@@ -176,10 +176,14 @@
     text-decoration: underline !important;
 }
 
- .category-title{
-       text-wrap:wrap !important;
+.category-title {
+    text-wrap: wrap !important;
 
-    }
+}
+
+.menu-bar:hover {
+    color: #007bff !important; 
+}
 
 /* .hero {
     background-image: url("/Blog/Blog/media/blogImages/3274764.jpg");
