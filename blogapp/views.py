@@ -228,6 +228,11 @@ def keywordSearch(request, keyword):
     page_obj = paginator.get_page(page_number)
     return render(request, 'keywordSearch.html', {'post': posts, 'page_obj': page_obj })
 
+def about(request):
+    return render(request, 'about.html')  
+
+def contact(request):
+    return render(request, 'contact.html') 
 
 def about(request):
     return render(request, 'about.html')

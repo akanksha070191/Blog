@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
+<<<<<<< HEAD
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,31 +56,23 @@
                     <div class="signout-dropdown">
                         <p>{{ request.session.username }}</p>
                         <button class="signout-btn" onclick="window.location.href='{% url "signout" %}'">Sign out</button>
+=======
+   {% block herosection %}
+        <div class="container-fluid hero" style="background-image: url('../media/blog_background.jpeg'); background-position: center; background-repeat: no-repeat; background-size: cover;"  >
+            <div class="row mt-4 ">
+                <div class="p-4 p-md-5 mb-4 ">
+                    <div class="col-md-6 px-0">
+                    <h1 class="display-4" style="font-weight:400; font-size:45px;">GRAND ORTUS</span> Featured Blog Post</h1>
+                    <p class="lead my-3">Grand Ortus, we specialize in delivering cutting-edge technology.Grand Ortus, we specialize in delivering cutting-edge technology.</p>
+                    <a href="{% url 'allBlogs' %}" class=" fw-bold btn btn-primary text-uppercase mt-5">More Blogs</a>
+>>>>>>> 12997fb609307fee7d1826f79e0f1fd61104d6d3
                     </div>
                 </div>
-                {% else %}
-                    <button class="signin-btn" onclick="window.location.href='{% url "signin" %}'">Sign in</button>
-                {% endif %}
-                            
             </div>
         </div>
-    </nav>
+    {% endblock herosection %}
 
-    {% comment %} Hero Section {% endcomment %}
-   
-    <div class="container-fluid hero" style="background-image: url('../media/blog_background.jpeg'); background-position: center; background-repeat: no-repeat; background-size: cover;"  >
-        <div class="row mt-4 ">
-            <div class="p-4 p-md-5 mb-4 ">
-                <div class="col-md-6 px-0">
-                  <h1 class="display-4" style="font-weight:400; font-size:45px;">GRAND ORTUS</span> Featured Blog Post</h1>
-                  <p class="lead my-3">Grand Ortus, we specialize in delivering cutting-edge technology.Grand Ortus, we specialize in delivering cutting-edge technology.</p>
-                  <a href="{% url 'allBlogs' %}" class=" fw-bold btn btn-primary text-uppercase mt-5">More Blogs</a>
-                </div>
-              </div>
-        </div>
-    </div>
-
-    
+    {% block content_section %}
     <section class="container mt-5">
         <!-- Featured Blog Post Section -->
         <div class="row p-2 p-md-5 mb-4" style="flex-wrap: nowrap;">
@@ -127,11 +119,9 @@
     
     
     </section>
+    {% endblock content_section %}
     
-   
-    
-    
-
+    {% block latestblog %}
     <div class="container py-5 ">
         <h1 class="text-start">Latest Blogs</h1>
         <hr class="divider">
@@ -175,74 +165,4 @@
 
          
     </div>
-
-
-    <footer class="bg-dark text-light py-4">
-        <div class="container text-center">
-            <div class="row">
-                <!-- Navigation Links -->
-                <div class="col-12">
-                    <ul class="navbar-nav mx-auto d-flex flex-row justify-content-center">
-                        <li class="nav-item mx-3">
-                            <a class="nav-link text-light" href="#">Home</a>
-                        </li>
-                        <li class="nav-item mx-3">
-                            <a class="nav-link text-light" href="#">About</a>
-                        </li>
-                        <li class="nav-item mx-3">
-                            <a class="nav-link text-light" href="#">Services</a>
-                        </li>
-                        <li class="nav-item mx-3">
-                            <a class="nav-link text-light" href="#">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-    
-                <!-- Social Media Icons -->
-                <div class="col-12 my-3">
-                    <a href="#" class="text-light mx-2"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="text-light mx-2"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#" class="text-light mx-2"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="text-light mx-2"><i class="bi bi-linkedin"></i></a>
-                </div>
-    
-                <!-- Copyright -->
-                <div class="col-12">
-                    <p class="mb-0">&copy; 2025 YourCompany. All Rights Reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-
-    <script>
-        function toggleForm() {
-            var form = document.getElementById("signin-form");
-            if (form.style.display === "none" || form.style.display === "") {
-                form.style.display = "block";
-            } else {
-                form.style.display = "none";
-            }
-        }
-    </script>
-
-    {% comment %} sign out function {% endcomment %}
-    <script>
-        function toggleDropdown() {
-            document.querySelector('.user-info').classList.toggle('active');
-        }
-    
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            var userInfo = document.querySelector('.user-info');
-            if (!userInfo.contains(event.target)) {
-                userInfo.classList.remove('active');
-            }
-        });
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-</body>
-</html>
+    {% endblock latestblog %}

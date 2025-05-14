@@ -20,6 +20,10 @@ urlpatterns = [
     path('archives/<int:year>/<str:month>/', views.archive_by_month, name='archive_by_month'),
     path('upload/', views.upload_file, name='upload_file'),
     path('keywordSearch/<str:keyword>/', views.keywordSearch, name='keywordSearch'),
+<<<<<<< HEAD
+=======
+    path('contact/', views.contact, name='contact'),
+>>>>>>> 12997fb609307fee7d1826f79e0f1fd61104d6d3
     path('about/', views.about, name='about'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
